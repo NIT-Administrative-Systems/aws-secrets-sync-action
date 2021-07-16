@@ -1,0 +1,44 @@
+name: WIP Test the Action
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  test-the-thing:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Setup Terraform 🧱
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.0.0
+        terraform_wrapper: false
+
+    - name: Outputs 🧱
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.TF_KEY_ADO_NONPROD }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.TF_SECRET_ADO_NONPROD }}    
+      run: |
+        cd iac/
+        terraform init
+        terraform output -json parameters
+        which terraform
+      
+    - name: Prepare deps
+      run: npm ci
+
+    - uses: ./
+      env: 
+        AWS_ACCESS_KEY_ID: ${{ secrets.TF_KEY_ADO_NONPROD }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.TF_SECRET_ADO_NONPROD }} 
+      with:
+        to: ssm
+        tf-module-path: iac/
+        secret-values: |
+          {
+            "jasonTest": "${{ secrets.jasonTest }}",
+            "nickTest": "${{ secrets.nickTest }}"
+          }

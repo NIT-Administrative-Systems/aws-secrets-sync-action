@@ -1,0 +1,23 @@
+name: GitHub Secrets to AWS Sync'
+author: nit-administrative-systems
+description: 'Synchronizes GitHub secrets to AWS SSM Parameter Store or Secrets Manager, per the Admin Systems secrets management strategy.'
+branding:
+  icon: 'key'
+  color: 'red'
+inputs:
+  to: 
+    description: 'Where you want your parameters stored: ssm (AWS SSM Parameter Store), secrets (AWS Secrets Manager), or vapor (Laravel Vapor).'
+    required: true
+  tf-module-path:
+    description: 'Path to your terraform module, e.g. iac/dev'
+    required: true
+  secret-values:
+    description: "JSON with key:value pairs. Keys should be your SSM parameter names, and the value should be the secret."
+    required: true
+  region:
+    description: 'Region that your SSM parameters exist in'
+    required: true
+    default: 'us-east-2'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
