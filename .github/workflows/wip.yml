@@ -1,6 +1,7 @@
 name: WIP Test the Action
 
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
 
