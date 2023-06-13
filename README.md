@@ -11,7 +11,7 @@ You will need to set up your secrets on your GitHub repository. Keep in mind tha
 To use this action, you should already have Terraform set up with the [`hashicorp/setup-terraform` action](https://github.com/hashicorp/setup-terraform). Since you are mapping the secret values, you will likely need several copies of this step. You can select which to run with the `if` statement.
 
 ```yaml
-    - uses: nit-administrative-systems/aws-secrets-sync-action@v1.0.0
+    - uses: nit-administrative-systems/aws-secrets-sync-action@v2.0.0
       if: github.ref == 'refs/heads/develop'
       env: 
         AWS_ACCESS_KEY_ID: ${{ secrets.TF_KEY_ACCT_ENV }}
