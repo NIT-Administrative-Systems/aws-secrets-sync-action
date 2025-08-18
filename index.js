@@ -8,15 +8,21 @@ const sameMembers = (arr1, arr2) => containsAll(arr1, arr2) && containsAll(arr2,
 
  // @TODO: add support for secrets & vapor :D
 const syncTypes = ['ssm'];
+const supportedTools = ['tofu', 'terraform'];
 
 const syncTo = core.getInput('to');
 const tfModulePath = core.getInput('tf-module-path');
 const awsRegion = core.getInput('region');
 const secretValueLookupRaw = core.getInput('secret-values');
+const tool = core.getInput('tool');
 let paramResult;
 
 if (! syncTypes.includes(syncTo)) {
     core.setFailed(`Invalid to parameter '${syncTo}' specified.\nSupported sync targets are: ${syncTypes.join(', ')}`);
+}
+
+if (! supportedTools.includes(tool)) {
+    core.setFailed(`Invalid tool parameter '${tool}' specified.\nSupported sync targets are: ${supportedTools.join(', ')}`);
 }
 
 // Stops this from being printed to the log, which would be bad.
@@ -26,9 +32,9 @@ const secretValueLookup = JSON.parse(secretValueLookupRaw);
 try {
     /*
     * Disable cli_follow_urlparam, because if a secret's value is a URL,
-    * then the aws ssm put-parameter command will try to GET that URL and 
-    * use its value as the secret. 
-    * 
+    * then the aws ssm put-parameter command will try to GET that URL and
+    * use its value as the secret.
+    *
     * Which is a ridiculous default behaviour.
     */
     execSync('aws configure set cli_follow_urlparam false');
@@ -38,7 +44,7 @@ try {
 }
 
 try {
-    paramResult = execSync(`cd ${jsStringEscape(tfModulePath)} && terraform output -json parameters`);
+    paramResult = execSync(`cd ${jsStringEscape(tfModulePath)} && ${tool} output -json parameters`);
 } catch (error) {
     core.setFailed(`Error from terraform output command: ${error.toString()}`);
 }

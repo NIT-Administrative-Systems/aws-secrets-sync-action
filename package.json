@@ -1,16 +1,16 @@
 {
   "name": "aws-secrets-sync-action",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "main": "index.js",
   "repository": "https://github.com/NIT-Administrative-Systems/aws-secrets-sync-action.git",
   "author": "Nick Evans <nick.evans@northwestern.edu>",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.4.0",
+    "@actions/core": "^1.11.0",
     "js-string-escape": "^1.0.1"
   },
   "devDependencies": {
-    "@zeit/ncc": "^0.22.3"
+    "@vercel/ncc": "^0.38.3"
   },
   "scripts": {
     "package": "ncc build index.js -o dist"
