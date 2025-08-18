@@ -10,31 +10,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v5.0.0
 
     - name: Setup Terraform 🧱
-      uses: hashicorp/setup-terraform@v2
-      with:
-        terraform_version: 1.0.0
-        terraform_wrapper: false
+      uses: opentofu/setup-opentofu@v1
 
     - name: Outputs 🧱
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.TF_KEY_ADO_NONPROD }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.TF_SECRET_ADO_NONPROD }}    
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.TF_SECRET_ADO_NONPROD }}
       run: |
         cd iac/
-        terraform init
-        terraform output -json parameters
-        which terraform
-      
+        tofu init
+        tofu output -json parameters
+        which tofu
+
     - name: Prepare deps
       run: npm ci
 
     - uses: ./
-      env: 
+      env:
         AWS_ACCESS_KEY_ID: ${{ secrets.TF_KEY_ADO_NONPROD }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.TF_SECRET_ADO_NONPROD }} 
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.TF_SECRET_ADO_NONPROD }}
       with:
         to: ssm
         tf-module-path: iac/
