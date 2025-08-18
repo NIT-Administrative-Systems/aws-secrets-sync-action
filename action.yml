@@ -18,6 +18,10 @@ inputs:
     description: 'Region that your SSM parameters exist in'
     required: true
     default: 'us-east-2'
+  tool:
+      description: 'The IaC tool being used, tofu or terraform.'
+      required: true
+      default: 'tofu'
 runs:
   using: 'node22'
   main: 'dist/index.js'

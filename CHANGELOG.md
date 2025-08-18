@@ -1,5 +1,11 @@
 # Changelog
 
+## v3.0.0 - 2025-08-18
+### Changed
+- Added the new `tool` input. This defaults to `tofu`.
+
+  This is a breaking change from v2, which defaulted to `terraform`!
+
 ## v2.0.0 - 2023-06-13
 
 ### Changed 
