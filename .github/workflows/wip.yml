@@ -12,13 +12,25 @@ jobs:
     steps:
     - uses: actions/checkout@v5.0.0
 
-    - name: Setup Terraform 🧱
+    - name: Setup Tofu 🧱
       uses: opentofu/setup-opentofu@v1
+
+    - name: Apply IaC Changes for Tech Demo Example 🧱
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.TF_KEY_ADO_NONPROD }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.TF_SECRET_ADO_NONPROD }}
+        TF_VAR_local_state_passphrase: ${{ secrets.TF_LOCAL_STATE_ENCRYPTION_KEY_2025_07 }}
+      run: |
+        cd iac/
+        tofu init
+        tofu plan
+        tofu apply -auto-approve
 
     - name: Outputs 🧱
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.TF_KEY_ADO_NONPROD }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.TF_SECRET_ADO_NONPROD }}
+        TF_VAR_local_state_passphrase: ${{ secrets.TF_LOCAL_STATE_ENCRYPTION_KEY_2025_07 }}
       run: |
         cd iac/
         tofu init
@@ -32,9 +44,11 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.TF_KEY_ADO_NONPROD }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.TF_SECRET_ADO_NONPROD }}
+        TF_VAR_local_state_passphrase: ${{ secrets.TF_LOCAL_STATE_ENCRYPTION_KEY_2025_07 }}
       with:
         to: ssm
         tf-module-path: iac/
+        tool: 'tofu'
         secret-values: |
           {
             "jasonTest": "${{ secrets.jasonTest }}",
