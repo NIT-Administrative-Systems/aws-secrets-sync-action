@@ -14,5 +14,11 @@
   },
   "scripts": {
     "package": "ncc build index.js -o dist"
+  },
+  "engines": {
+    "node": ">= 24.0.0",
+    "npm": ">= 11.0.0",
+    "yarn": "please-use-npm",
+    "pnpm": "please-use-npm"
   }
 }
