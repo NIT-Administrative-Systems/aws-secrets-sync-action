@@ -1,4 +1,10 @@
 # ssm-secrets-sync-action
+
+> [!WARNING]
+> This action is **deprecated**.
+>
+> There will not be future releases. Please move away from using this. It will be archived around 2027-03-17.
+
 Synchronizes GitHub secrets to AWS per the Admin Systems secrets management strategy.
 
 This action can synchronize from GitHub repository secrets to AWS SSM Parameter Store, AWS Secrets Manager, and Laravel Vapor.
